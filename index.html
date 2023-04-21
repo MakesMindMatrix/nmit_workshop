@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .container {
+            height: 100vh;
+            background-image: url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80');
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: top;
+            backdrop-filter: blur(10px);
+            color: #1a7a86;
+        }
+        .overlay{
+            position: absolute;
+            background-color: #1b1b1b1f;
+            height: 100%;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        .container h2 {
+            font-weight: 500;
+        }
+
+        #para {
+            font-size: 20px;
+            font-weight: 500;
+            background-color: #ddd3d32c;
+            width: 30%;
+            height: auto;
+            margin-top: 15px;
+            text-align: center;
+            overflow-y: scroll;
+            box-shadow: 2px 5px 15px #5c5858;
+            display: none;
+        }
+
+        #btn {
+            text-decoration: none;
+            padding: 12px 18px;
+            background-color: transparent;
+            color: #ffffffc2;
+            border-width: 0.5px;
+            border-color: #2d2e2e;
+            margin: 5px;
+            cursor: pointer;
+        }
+
+        #btn:hover {
+            background-color: #80808065;
+            color: #ffffff;
+        }
+
+        #inputBox {
+            padding: 12px 20px;
+            margin: 8px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="overlay">
+            <form id="student">
+                <input type="text" name="author" id="inputBox" />
+                <input type="submit" value="Search" id="btn">
+            </form>
+            <p id="para"></p>
+        </div>
+    </div>
+
+
+    <script>
+        const form = document.getElementById('student')
+        var para = document.getElementById('para')
+
+
+        // console.log(form.value)
+        form.addEventListener('submit', function (e) {
+            e.preventDefault()
+            para.style.display = "initial"
+
+            const formData = new FormData(form)
+            const [data] = [...formData]
+
+            var bodyData = {
+                "model": "text-davinci-003",
+                "prompt": `${data[1]}`,
+                "temperature": 1,
+                "max_tokens": 100,
+                "top_p": 1.0,
+                "frequency_penalty": 0.0,
+                "presence_penalty": 0.0
+            }
+
+            fetch('https://api.openai.com/v1/completions', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer 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' },
+                body: JSON.stringify(bodyData)
+            }).then(res => res.json())
+                .then(dt => {
+                    console.log(dt)
+                    para.innerHTML += dt.choices[0].text
+                })
+
+
+        })
+
+        inputBox.addEventListener('click', () => {
+            const inputBox = document.getElementById('inputBox')
+            inputBox.value = ""
+            para.innerHTML = ""
+            para.style.display = "none"
+        })
+    </script>
+</body>
+
+</html>
