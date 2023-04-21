@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        .container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            height: 100vh;
+            background-image: url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80');
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: top;
+            backdrop-filter: blur(10px);
+            color: #1f636c;
+        }
+
+        .container h2 {
+            font-weight: 500;
+        }
+
+        #para {
+            font-weight: 500;
+            background-color: #0000002c;
+            width: 30%;
+            height: 40%;
+            margin-top: 15px;
+            text-align: center;
+            overflow: scroll;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <form id="student">
+            <input type="text" name="author" id="inputBox"/>
+            <input type="submit" value="Search">
+        </form>
+        <p id="para">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ipsum inventore consequuntur necessitatibus recusandae reprehenderit obcaecati explicabo voluptatum laudantium odit, officiis animi sint laborum dignissimos? In similique quidem officiis provident perspiciatis corrupti minus, repellendus voluptas aspernatur quod quo ipsam distinctio fugit eos esse exercitationem assumenda. Reiciendis soluta temporibus voluptate, inventore velit, corrupti illum deleniti atque tenetur sunt rem, tempora harum excepturi et dolorum porro libero amet. Iste similique, nemo, quos minus assumenda consequuntur velit dolorem cumque deserunt amet esse, eum excepturi eos nulla soluta corporis labore voluptatum est. Ducimus impedit doloribus tenetur at, veniam unde animi id. Excepturi maiores assumenda voluptate rem natus, earum inventore distinctio modi recusandae sint repellat aliquid minus ratione id voluptatibus quae cumque, alias ducimus illum tempora harum necessitatibus laudantium? Tenetur adipisci quo nostrum quos officia ut recusandae doloremque ea temporibus rerum beatae, quis amet officiis nobis fuga voluptatum suscipit nam fugit commodi obcaecati consectetur, et neque illum? Ut delectus, unde impedit doloribus dicta quod iure incidunt, hic recusandae nihil assumenda beatae totam vitae aperiam maxime aliquid! Saepe ab ea deserunt possimus esse. Distinctio praesentium ipsum sequi fugit nesciunt ullam odio voluptates incidunt, accusantium, voluptatibus repellat dignissimos adipisci totam! Quas molestias excepturi, veniam cumque perspiciatis odit necessitatibus?</p>
+    </div>
+
+
+    <script>
+        const form = document.getElementById('student')
+        var para = document.getElementById('para')
+        
+
+        // console.log(form.value)
+        form.addEventListener('submit', function (e) {
+            e.preventDefault()
+
+            const formData = new FormData(form)
+            const [data] = [...formData]
+
+            var bodyData = {
+                "model": "text-davinci-003",
+                "prompt": `${data[1]}`,
+                "temperature": 1,
+                "max_tokens": 100,
+                "top_p": 1.0,
+                "frequency_penalty": 0.0,
+                "presence_penalty": 0.0
+            }
+
+            fetch('https://api.openai.com/v1/completions', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer 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' },
+                body: JSON.stringify(bodyData)
+            }).then(res => res.json())
+                .then(dt => {
+                    console.log(dt)
+                    para.innerHTML += dt.choices[0].text
+                })
+                   
+
+        })
+
+        inputBox.addEventListener('click', () => {
+            const inputBox = document.getElementById('inputBox')
+            inputBox.value = "" 
+            para.innerHTML = ""
+        })
+    </script>
+</body>
+
+</html>
