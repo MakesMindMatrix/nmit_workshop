@@ -20,11 +20,11 @@
             background-size: cover;
             background-position: top;
             backdrop-filter: blur(10px);
-            color: #1a7a86;
+            color: #065c68;
         }
         .overlay{
             position: absolute;
-            background-color: #1b1b1b1f;
+            background-color: #1b1b1b31;
             height: 100%;
             width: 100%;
             display: flex;
@@ -78,10 +78,7 @@
 <body>
     <div class="container">
         <div class="overlay">
-            <form id="student">
-                <input type="text" name="author" id="inputBox" />
-                <input type="submit" value="Search" id="btn">
-            </form>
+            <h1>Hello from keanest</h1>
             <p id="para"></p>
         </div>
     </div>
@@ -93,42 +90,42 @@
 
 
         // console.log(form.value)
-        form.addEventListener('submit', function (e) {
-            e.preventDefault()
-            para.style.display = "initial"
+        // form.addEventListener('submit', function (e) {
+        //     e.preventDefault()
+        //     para.style.display = "initial"
 
-            const formData = new FormData(form)
-            const [data] = [...formData]
+        //     const formData = new FormData(form)
+        //     const [data] = [...formData]
 
-            var bodyData = {
-                "model": "text-davinci-003",
-                "prompt": `${data[1]}`,
-                "temperature": 1,
-                "max_tokens": 100,
-                "top_p": 1.0,
-                "frequency_penalty": 0.0,
-                "presence_penalty": 0.0
-            }
+        //     var bodyData = {
+        //         "model": "text-davinci-003",
+        //         "prompt": `${data[1]}`,
+        //         "temperature": 1,
+        //         "max_tokens": 100,
+        //         "top_p": 1.0,
+        //         "frequency_penalty": 0.0,
+        //         "presence_penalty": 0.0
+        //     }
 
-            fetch('https://api.openai.com/v1/completions', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer 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' },
-                body: JSON.stringify(bodyData)
-            }).then(res => res.json())
-                .then(dt => {
-                    console.log(dt)
-                    para.innerHTML += dt.choices[0].text
-                })
+        //     fetch('https://api.openai.com/v1/completions', {
+        //         method: 'POST',
+        //         headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer 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' },
+        //         body: JSON.stringify(bodyData)
+        //     }).then(res => res.json())
+        //         .then(dt => {
+        //             console.log(dt)
+        //             para.innerHTML += dt.choices[0].text
+        //         })
 
 
-        })
+        // })
 
-        inputBox.addEventListener('click', () => {
-            const inputBox = document.getElementById('inputBox')
-            inputBox.value = ""
-            para.innerHTML = ""
-            para.style.display = "none"
-        })
+        // inputBox.addEventListener('click', () => {
+        //     const inputBox = document.getElementById('inputBox')
+        //     inputBox.value = ""
+        //     para.innerHTML = ""
+        //     para.style.display = "none"
+        // })
     </script>
 </body>
 
